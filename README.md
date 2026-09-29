@@ -1,101 +1,26 @@
-# appdash (view on [Sourcegraph](https://sourcegraph.com/github.com/sourcegraph/appdash))
+# AppDash
 
+本仓库是「AppDash」的安卓版本获取入口，附使用资料索引。
 
-Appdash is an application tracing system for Go, based on
-[Google's Dapper](http://research.google.com/pubs/pub36356.html) and
-[Twitter's Zipkin](https://zipkin.io/).
+## 安装文件资源（夸克网盘）
 
-Appdash allows you to trace the end-to-end handling of requests and
-operations in your application (for perf and debugging). It displays
-timings and application-specific metadata for each step, and it
-displays a tree and timeline for each request and its children.
+> **AppDash 安装文件资源（夸克网盘）**：[https://pan.quark.cn/s/989583a6dc76](https://pan.quark.cn/s/989583a6dc76)
 
-To use appdash, you must instrument your application with calls to an
-appdash recorder. You can record any type of event or
-operation. Recorders and schemas for HTTP (client and server) and SQL
-are provided, and you can write your own.
+## 官方项目
 
+- 上游项目：[pulumi/appdash](https://github.com/pulumi/appdash)
 
-## Usage
+## 更多资料
 
-To install appdash, run:
+- [下载与安装教程](https://github.com/alipymanbu/Android/blob/master/%E5%AE%98%E7%BD%91%E7%89%88APP%E4%B8%8B%E8%BD%BD/AppDash/%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B.md)
+- [备份失败常见原因与预防措施](https://github.com/alipymanbu/Android/blob/master/%E5%AE%98%E7%BD%91%E7%89%88APP%E4%B8%8B%E8%BD%BD/AppDash/%E5%A4%87%E4%BB%BD%E5%A4%B1%E8%B4%A5%E5%B8%B8%E8%A7%81%E5%8E%9F%E5%9B%A0%E4%B8%8E%E9%A2%84%E9%98%B2%E6%8E%AA%E6%96%BD.md)
+- [常见问题与使用须知](https://github.com/alipymanbu/Android/blob/master/%E5%AE%98%E7%BD%91%E7%89%88APP%E4%B8%8B%E8%BD%BD/AppDash/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E4%B8%8E%E4%BD%BF%E7%94%A8%E9%A1%BB%E7%9F%A5.md)
+- [应用备份与恢复方法](https://github.com/alipymanbu/Android/blob/master/%E5%AE%98%E7%BD%91%E7%89%88APP%E4%B8%8B%E8%BD%BD/AppDash/%E5%BA%94%E7%94%A8%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D%E6%96%B9%E6%B3%95.md)
+- [找出未使用应用与释放空间](https://github.com/alipymanbu/Android/blob/master/%E5%AE%98%E7%BD%91%E7%89%88APP%E4%B8%8B%E8%BD%BD/AppDash/%E6%89%BE%E5%87%BA%E6%9C%AA%E4%BD%BF%E7%94%A8%E5%BA%94%E7%94%A8%E4%B8%8E%E9%87%8A%E6%94%BE%E7%A9%BA%E9%97%B4.md)
+- [查看应用详情与权限](https://github.com/alipymanbu/Android/blob/master/%E5%AE%98%E7%BD%91%E7%89%88APP%E4%B8%8B%E8%BD%BD/AppDash/%E6%9F%A5%E7%9C%8B%E5%BA%94%E7%94%A8%E8%AF%A6%E6%83%85%E4%B8%8E%E6%9D%83%E9%99%90.md)
+- [标签分组与批量管理技巧](https://github.com/alipymanbu/Android/blob/master/%E5%AE%98%E7%BD%91%E7%89%88APP%E4%B8%8B%E8%BD%BD/AppDash/%E6%A0%87%E7%AD%BE%E5%88%86%E7%BB%84%E4%B8%8E%E6%89%B9%E9%87%8F%E7%AE%A1%E7%90%86%E6%8A%80%E5%B7%A7.md)
+- [全部软件目录](https://github.com/alipymanbu/Android/blob/master/%E5%85%A8%E9%83%A8%E8%BD%AF%E4%BB%B6%E7%9B%AE%E5%BD%95.md)
 
-```
-go get -u github.com/pulumi/appdash/cmd/...
-```
+---
 
-A standalone example using Negroni and Gorilla packages is available in the `examples/cmd/webapp` folder.
-
-A demo / pure `net/http` application (which is slightly more verbose) is also available at `cmd/appdash/example_app.go`, and it can be ran easily using `appdash demo` on the command line.
-
-## Community
-
-Questions or comments? Join us [on #sourcegraph](https://invite.slack.golangbridge.org/) in the Gophers slack!
-
-## Development
-
-Appdash uses [vfsgen](https://github.com/shurcooL/vfsgen) to package HTML templates with the appdash binary for
-distribution. This means that if you want to modify the template data in `traceapp/tmpl` you can first build using the `dev` build tag, which makes the template data be reloaded from disk live.
-
-After you're finished making changes to the templates, always run `go generate github.com/pulumi/appdash/traceapp/tmpl` so that the `data_vfsdata.go` file is updated for normal Appdash users that aren't interested in modifying the template data.
-
-## Components
-
-Appdash follows the design and naming conventions of
-[Google's Dapper](http://research.google.com/pubs/pub36356.html). You
-should read that paper if you are curious about why certain
-architectural choices were made.
-
-There are 4 main components/concepts in appdash:
-
-* [**Spans**](https://sourcegraph.com/sourcegraph.com/sourcegraph/appdash@master/.GoPackage/sourcegraph.com/sourcegraph/appdash/.def/SpanID):
-  A span refers to an operation and all of its children. For example,
-  an HTTP handler handles a request by calling other components in
-  your system, which in turn make various API and DB calls. The HTTP
-  handler's span includes all downstream operations and their
-  descendents; likewise, each downstream operation is its own span and
-  has its own descendents. In this way, appdash constructs a tree of
-  all of the operations that occur during the handling of the HTTP
-  request.
-* [**Event**](https://sourcegraph.com/sourcegraph.com/sourcegraph/appdash@master/.GoPackage/sourcegraph.com/sourcegraph/appdash/.def/Event):
-  Your application records the various operations it performs (in the
-  course of handling a request) as Events. Events can be arbitrary
-  messages or metadata, or they can be structured event types defined
-  by a Go type (such as an HTTP
-  [ServerEvent](https://sourcegraph.com/sourcegraph.com/sourcegraph/appdash@master/.GoPackage/sourcegraph.com/sourcegraph/appdash/httptrace/.def/ServerEvent)
-  or an
-  [SQLEvent](https://sourcegraph.com/sourcegraph.com/sourcegraph/appdash@master/.GoPackage/sourcegraph.com/sourcegraph/appdash/sqltrace/.def/SQLEvent)).
-* [**Recorder**](https://sourcegraph.com/sourcegraph.com/sourcegraph/appdash@master/.GoPackage/sourcegraph.com/sourcegraph/appdash/.def/Recorder):
-  Your application uses a Recorder to send events to a Collector (see
-  below). Each Recorder is associated with a particular span in the
-  tree of operations that are handling a particular request, and all
-  events sent via a Recorder are automatically associated with that
-  context.
-* [**Collector**](https://sourcegraph.com/sourcegraph.com/sourcegraph/appdash@master/.GoPackage/sourcegraph.com/sourcegraph/appdash/.def/Collector):
-  A Collector receives Annotations (which are the encoded form of
-  Events) sent by a Recorder. Typically, your application's Recorder
-  talks to a local Collector (created with
-  [NewRemoteCollector](https://sourcegraph.com/sourcegraph.com/sourcegraph/appdash@master/.GoPackage/sourcegraph.com/sourcegraph/appdash/.def/NewRemoteCollector). This
-  local Collector forwards data to a remote appdash server (created
-  with
-  [NewServer](https://sourcegraph.com/sourcegraph.com/sourcegraph/appdash@master/.GoPackage/sourcegraph.com/sourcegraph/appdash/.def/NewServer)
-  that combines traces from all of the services that compose your
-  application. The appdash server in turn runs a Collector that
-  listens on the network for this data, and it then stores what it
-  receives.
-
-
-## Language Support
-
-Appdash has clients available for Go, Python (see `python/` subdir) and Ruby (see https://github.com/bsm/appdash-rb).
-
-## OpenTracing Support
-
-Appdash supports the [OpenTracing](http://opentracing.io) API. Please see the
-`opentracing` subdir for the Go implementation, or see [the GoDoc](https://godoc.org/github.com/pulumi/appdash/opentracing)
-for API documentation.
-
-## Acknowledgments
-
-**appdash** was influenced by, and uses code from, Coda Hale's
-[lunk](https://github.com/codahale/lunk).
+> 本仓库由上游项目 fork 而来，原始说明见[上游仓库](https://github.com/pulumi/appdash)。
